@@ -1,0 +1,81 @@
+<div fxFlexFill fxLayout='column'>
+	<div fxFlex>
+		<mat-toolbar>QR SIN Bolivia</mat-toolbar>
+	</div>
+	<div fxFlex>
+		<button mat-button (click)="downloadTxt()">Download</button>
+	</div>
+    <div fxLayout='row'>
+        
+        <div fxFlex =80>
+            
+            <mat-table #table [dataSource]="dataSource">
+                
+                <!-- Position Column -->
+                <ng-container matColumnDef="nro">
+                    <mat-header-cell class="center" *matHeaderCellDef fxFlex="3"> No. </mat-header-cell>
+                    <mat-cell *matCellDef="let element; let i = index" fxFlex="3" class="center"> {{ i + 1 }} </mat-cell>
+                </ng-container>
+                
+                <!-- Name Column -->
+                <ng-container matColumnDef="nitEmpresa">
+                    <mat-header-cell class="center" *matHeaderCellDef> Nit Empresa </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center"> {{element.nit}} </mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="numeroFactura">
+                    <mat-header-cell class="center" *matHeaderCellDef> Número Factura </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center"> {{element.numeroFactura}} </mat-cell>
+                </ng-container>
+                
+                
+                <!-- Weight Column -->
+                <ng-container matColumnDef="autorizacion">
+                    <mat-header-cell class="center" *matHeaderCellDef> Número Autorización </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center"> {{element.autorizacion}} </mat-cell>
+                </ng-container>
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="codigoControl">
+                    <mat-header-cell class="center" *matHeaderCellDef> Código de Control </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center"> {{element.codigoControl}} </mat-cell>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="fecha">
+                    <mat-header-cell class="center" *matHeaderCellDef> Fecha </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center"> {{element.fecha}} </mat-cell>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="monto">
+                    <mat-header-cell class="center" *matHeaderCellDef fxFlex="10"> Monto </mat-header-cell>
+                    <mat-cell *matCellDef="let element" fxFlex="10" class="center"> {{element.monto  | number : '1.2-2'}} </mat-cell>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="options">
+                    <mat-header-cell class="center" *matHeaderCellDef fxFlex="10"> Opción </mat-header-cell>
+                    <mat-cell *matCellDef="let element" fxFlex="10"> 
+                        <a mat-button (click)="removeFactura(element)">
+                            X
+                        </a>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row 
+                    *matRowDef="let row; columns: displayedColumns;" 
+                    (click)="verFactura(row)"
+                    [@listAnimation]="facturas.length" ></mat-row>
+            </mat-table>
+        </div>
+        <div fxFlex = 20>
+            <qr-scanner
+                [debug]="false"
+                [stopAfterScan]="false" 
+                [updateTime]="500"
+                > 
+            </qr-scanner>  
+        </div>
+    </div>
+    <div>
+        {{total | number : '1.2-2'}}
+    </div>
+</div>
